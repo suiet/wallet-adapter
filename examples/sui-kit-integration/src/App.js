@@ -18,9 +18,10 @@ function WalletSelector(props) {
         please select a wallet
       </option>
       {supportedWallets.map((wallet) => {
+        const { name } = wallet.adapter;
         return (
-          <option key={wallet.adapter.name} value={wallet.adapter.name}>
-            {wallet.adapter.name}
+          <option key={name} value={name}>
+            {name}
           </option>
         );
       })}
@@ -38,6 +39,7 @@ function Page() {
     getAccounts,
     executeMoveCall,
   } = useWallet();
+
   const [walletName, setWalletName] = useState("");
   const [accounts, setAccounts] = useState([]);
 
@@ -67,22 +69,21 @@ function Page() {
     });
   }
 
-  // useEffect(() => {
-  //   if (!wallet) return;
-  //   if (wallet.adapter && !walletName) {
-  //     setWalletName(wallet.adapter.name);
-  //   }
-  // }, [wallet]);
+  useEffect(() => {
+    if (!wallet) return;
+    if (wallet.adapter && !walletName) {
+      setWalletName(wallet.adapter.name);
+    }
+  }, [wallet]);
 
   useEffect(() => {
-    if (!walletName) return;
     if (connected) {
       (async function () {
         const result = await getAccounts();
         setAccounts(result);
       })();
     }
-  }, [walletName, connected]);
+  }, [connected]);
 
   return (
     <div className="App">

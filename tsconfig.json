@@ -14,7 +14,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "declaration": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "experimentalDecorators": true
   },
   "include": ["src/*"]
 }

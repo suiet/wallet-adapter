@@ -18,31 +18,74 @@ export interface ISuietWallet extends WalletCapabilities {
   requestPermissions: () => Promise<boolean>;
 }
 
+function guideToInstallExtension() {
+  // TODO
+  throw new Error(suietSay('You need to install Suiet Extension from Chrome Store firstly!'));
+}
+
+function ensureWalletExist() {
+  return (target: any,
+    methodName: string,
+    descriptor: PropertyDescriptor
+  ) => {
+    const method = descriptor.value;
+    descriptor.value = (...args: any[]) => {
+      if (!window.__suiet__) {
+        return guideToInstallExtension();
+      }
+      if (!target.wallet) {
+        target.wallet = window.__suiet__;
+      }
+      const result = method.apply(target, ...args)
+      return result;
+    }
+    return descriptor;
+  }
+}
+
+function requireConnected() {
+  return function (
+    target: any,
+    methodName: string,
+    descriptor: PropertyDescriptor,
+  ) {
+    const method = descriptor.value;
+    descriptor.value = (...args: any) => {
+      if (!target.connected) {
+        throw new Error(suietSay(`call function failed, wallet is not connected. methodName=${methodName}`))
+      }
+      return method.apply(target, ...args)
+    }
+    return descriptor;
+  }
+}
+
+function suietSay(msg: string) {
+  return `[SUIET_WALLET]: ${msg}`
+}
+
 export class SuietWalletAdapter implements WalletCapabilities {
   name = 'Suiet Wallet';
   connecting: boolean;
   connected: boolean;
-  wallet: ISuietWallet;
+  wallet: ISuietWallet | null = null;
 
   constructor() {
     this.connected = false;
     this.connecting = false;
-    this.wallet = window.__suiet__; // load global object injected by suiet extension
   }
 
+  @ensureWalletExist()
   async connect(): Promise<void> {
-    if (!this.wallet) {
-      this.guideToInstallExtension();
-      return;
-    }
+    const wallet = this.wallet as ISuietWallet;
     this.connecting = true;
     try {
-      await this.wallet.connect();
-      const given = await this.wallet.requestPermissions();
-      console.log('requestPermissions', given);
+      await wallet.connect();
+      const given = await wallet.requestPermissions();
+      console.log(suietSay('requestPermissions'), given);
       const newLocal: readonly PermissionType[] = ['viewAccount'];
-      const perms = await this.wallet.hasPermissions(newLocal);
-      console.log('hasPermissions', perms);
+      const perms = await wallet.hasPermissions(newLocal);
+      console.log(suietSay('hasPermissions'), perms);
       this.connected = true;
     } catch (err) {
       console.error(err);
@@ -51,31 +94,36 @@ export class SuietWalletAdapter implements WalletCapabilities {
     }
   }
 
+  @requireConnected()
+  @ensureWalletExist()
   async disconnect(): Promise<void> {
-    if (this.connected) {
-      await this.wallet.disconnect();
-      this.connected = false;
-    }
+    const wallet = this.wallet as ISuietWallet;
+    await wallet.disconnect();
+    this.connected = false;
   }
 
+  @requireConnected()
+  @ensureWalletExist()
   async getAccounts(): Promise<string[]> {
-    return await this.wallet.getAccounts();
+    const wallet = this.wallet as ISuietWallet;
+    return await wallet.getAccounts();
   }
 
+  @requireConnected()
+  @ensureWalletExist()
   async executeMoveCall(
     transaction: MoveCallTransaction
   ): Promise<SuiTransactionResponse> {
-    return await this.wallet.executeMoveCall(transaction);
+    const wallet = this.wallet as ISuietWallet;
+    return await wallet.executeMoveCall(transaction);
   }
 
+  @requireConnected()
+  @ensureWalletExist()
   async executeSerializedMoveCall(
     transactionBytes: Uint8Array
   ): Promise<SuiTransactionResponse> {
-    return await this.wallet.executeSerializedMoveCall(transactionBytes);
-  }
-
-  private guideToInstallExtension() {
-    // TODO
-    console.warn('Need to install Suiet Extension from Chrome Store first!');
+    const wallet = this.wallet as ISuietWallet;
+    return await wallet.executeSerializedMoveCall(transactionBytes);
   }
 }
