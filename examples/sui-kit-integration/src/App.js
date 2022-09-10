@@ -38,7 +38,7 @@ function Page() {
     getAccounts,
     executeMoveCall,
   } = useWallet();
-  const [walletName, setWalletName] = useState();
+  const [walletName, setWalletName] = useState("");
   const [accounts, setAccounts] = useState([]);
 
   function handleConnect() {
@@ -67,12 +67,12 @@ function Page() {
     });
   }
 
-  useEffect(() => {
-    if (!wallet) return;
-    if (wallet.adapter && !walletName) {
-      setWalletName(wallet.adapter.name);
-    }
-  }, [wallet]);
+  // useEffect(() => {
+  //   if (!wallet) return;
+  //   if (wallet.adapter && !walletName) {
+  //     setWalletName(wallet.adapter.name);
+  //   }
+  // }, [wallet]);
 
   useEffect(() => {
     if (!walletName) return;
@@ -98,7 +98,7 @@ function Page() {
           />
           <button
             style={{ margin: "0px 4px" }}
-            disabled={!walletName || connecting}
+            disabled={!walletName}
             onClick={() => {
               if (!connected) handleConnect();
               else handleDisconnect();
