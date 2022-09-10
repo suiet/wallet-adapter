@@ -1,6 +1,7 @@
 // Copyright © 2022, Suiet Team
-import { MoveCallTransaction, SuiTransactionResponse } from '@mysten/sui.js';
-import { WalletCapabilities } from '@mysten/wallet-adapter-base';
+import {MoveCallTransaction, SuiTransactionResponse} from '@mysten/sui.js';
+import {WalletCapabilities} from '@mysten/wallet-adapter-base';
+
 const ALL_PERMISSION_TYPES = ['viewAccount', 'suggestTransactions'] as const;
 type AllPermissionsType = typeof ALL_PERMISSION_TYPES;
 type PermissionType = AllPermissionsType[number];
@@ -36,8 +37,7 @@ function ensureWalletExist() {
       if (!target.wallet) {
         target.wallet = window.__suiet__;
       }
-      const result = method.apply(target, ...args)
-      return result;
+      return method.apply(target, ...args);
     }
     return descriptor;
   }
@@ -65,15 +65,10 @@ function suietSay(msg: string) {
 }
 
 export class SuietWalletAdapter implements WalletCapabilities {
-  name = 'Suiet Wallet';
-  connecting: boolean;
-  connected: boolean;
+  name = 'Suiet';
+  connecting: boolean = false;
+  connected: boolean = false;
   wallet: ISuietWallet | null = null;
-
-  constructor() {
-    this.connected = false;
-    this.connecting = false;
-  }
 
   @ensureWalletExist()
   async connect(): Promise<void> {
