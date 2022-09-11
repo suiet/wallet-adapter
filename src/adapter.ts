@@ -1,9 +1,13 @@
 // Copyright © 2022, Suiet Team
-import {MoveCallTransaction, SuiTransactionResponse} from '@mysten/sui.js';
+import {MoveCallTransaction, SuiAddress, SuiTransactionResponse} from '@mysten/sui.js';
 import {WalletCapabilities} from '@mysten/wallet-adapter-base';
 
 const ALL_PERMISSION_TYPES = ['viewAccount', 'suggestTransactions'] as const;
 type AllPermissionsType = typeof ALL_PERMISSION_TYPES;
+enum Permission {
+  VIEW_ACCOUNT = 'viewAccount',
+  SUGGEST_TX = 'suggestTransactions',
+}
 type PermissionType = AllPermissionsType[number];
 
 interface SuiWalletWindow {
@@ -12,8 +16,11 @@ interface SuiWalletWindow {
 
 declare const window: SuiWalletWindow;
 
-export interface ISuietWallet extends WalletCapabilities {
-  connect: () => Promise<void>;
+export interface ISuietWallet {
+  connect: (perms: Permission[]) => Promise<ResData<any>>;
+  getAccounts: () => Promise<SuiAddress[]>;
+  executeMoveCall: (transaction: MoveCallTransaction) => Promise<SuiTransactionResponse>;
+  executeSerializedMoveCall: (transactionBytes: Uint8Array) => Promise<SuiTransactionResponse>;
   disconnect: () => Promise<void>;
   hasPermissions: (permissions: readonly PermissionType[]) => Promise<boolean>;
   requestPermissions: () => Promise<boolean>;
@@ -64,6 +71,15 @@ function suietSay(msg: string) {
   return `[SUIET_WALLET]: ${msg}`
 }
 
+interface ResData<T> {
+  id: string;
+  error: null | {
+    code: string;
+    msg: string;
+  };
+  data: null | T;
+}
+
 export class SuietWalletAdapter implements WalletCapabilities {
   name = 'Suiet';
   connecting: boolean = false;
@@ -72,17 +88,19 @@ export class SuietWalletAdapter implements WalletCapabilities {
 
   @ensureWalletExist()
   async connect(): Promise<void> {
+    if (this.connected) return;
     const wallet = this.wallet as ISuietWallet;
     this.connecting = true;
     try {
-      await wallet.connect();
-      const given = await wallet.requestPermissions();
-      console.log(suietSay('requestPermissions'), given);
-      const newLocal: readonly PermissionType[] = ['viewAccount'];
-      const perms = await wallet.hasPermissions(newLocal);
-      console.log(suietSay('hasPermissions'), perms);
+      console.log('[adapter] connect', [Permission.VIEW_ACCOUNT, Permission.SUGGEST_TX])
+      const res = await wallet.connect([Permission.VIEW_ACCOUNT, Permission.SUGGEST_TX]);
+      if (res.error) {
+        console.error(res.error);
+        return;
+      }
       this.connected = true;
     } catch (err) {
+      this.connected = false;
       console.error(err);
     } finally {
       this.connecting = false;
