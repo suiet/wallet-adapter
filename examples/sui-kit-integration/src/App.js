@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { WalletProvider, useWallet } from "@mysten/wallet-adapter-react";
-import { SuietWalletAdapter } from "suiet-wallet-adapter";
+import { SuietWalletAdapter } from "@suiet/wallet-adapter";
 import { useEffect, useState } from "react";
 
 const supportedWallets = [

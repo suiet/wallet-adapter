@@ -24,7 +24,7 @@ For React DApps, the Sui team has provided **React context provider** and **Reac
 2. Install required npm packages
 
 ```bash
-npm install @mysten/wallet-adapter-react suiet-wallet-adapter
+npm install @mysten/wallet-adapter-react @suiet/wallet-adapter
 ```
 
 ### 🚢 Use Sui wallet provider & Register Suiet adapter
@@ -32,7 +32,7 @@ npm install @mysten/wallet-adapter-react suiet-wallet-adapter
 ```jsx
 // main.js
 import { WalletProvider } from "@mysten/wallet-adapter-react";
-import { SuietWalletAdapter } from "suiet-wallet-adapter";
+import { SuietWalletAdapter } from "@suiet/wallet-adapter";
 
 const supportedWallets = [
   { adapter: new SuietWalletAdapter() },
