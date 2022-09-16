@@ -1,8 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { WalletProvider, useWallet } from "@mysten/wallet-adapter-react";
-import { SuietWalletAdapter } from "@suiet/wallet-adapter";
-import { useEffect, useState } from "react";
+import {WalletProvider, useWallet} from "@mysten/wallet-adapter-react";
+import {SuietWalletAdapter} from "@suiet/wallet-adapter";
+import {useEffect, useState} from "react";
 
 const supportedWallets = [
   {
@@ -11,14 +11,14 @@ const supportedWallets = [
 ];
 
 function WalletSelector(props) {
-  const { value, supportedWallets, onChange } = props;
+  const {value, supportedWallets, onChange} = props;
   return (
     <select value={value} onChange={onChange}>
       <option value={""} disabled>
         please select a wallet
       </option>
       {supportedWallets.map((wallet) => {
-        const { name } = wallet.adapter;
+        const {name} = wallet.adapter;
         return (
           <option key={name} value={name}>
             {name}
@@ -77,18 +77,20 @@ function Page() {
   }, [wallet]);
 
   useEffect(() => {
-    if (connected) {
-      (async function () {
-        const result = await getAccounts();
-        setAccounts(result);
-      })();
+    if (!connected) {
+      setAccounts([]);
+      return;
     }
+    (async function () {
+      const result = await getAccounts();
+      setAccounts(result);
+    })();
   }, [connected]);
 
   return (
     <div className="App">
       <section className="container">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} className="App-logo" alt="logo"/>
         <h1>Suiet Wallet Adapter Playground</h1>
         <p>Start editing to see some magic happen!</p>
         <div>
@@ -98,7 +100,7 @@ function Page() {
             onChange={(evt) => setWalletName(evt.target.value)}
           />
           <button
-            style={{ margin: "0px 4px" }}
+            style={{margin: "0px 4px"}}
             disabled={!walletName}
             onClick={() => {
               if (!connected) handleConnect();
@@ -109,7 +111,7 @@ function Page() {
           </button>
 
           {connected && (
-            <div style={{ margin: "8px 0" }}>
+            <div style={{margin: "8px 0"}}>
               <button onClick={handleExecuteMoveCall}>executeMoveCall</button>
             </div>
           )}
@@ -121,8 +123,8 @@ function Page() {
             {connecting
               ? "connecting"
               : connected
-              ? "connected"
-              : "disconnected"}
+                ? "connected"
+                : "disconnected"}
           </p>
           <p>wallet accounts: {JSON.stringify(accounts)}</p>
         </div>
@@ -134,7 +136,7 @@ function Page() {
 export default function App() {
   return (
     <WalletProvider supportedWallets={supportedWallets}>
-      <Page />
+      <Page/>
     </WalletProvider>
   );
 }
