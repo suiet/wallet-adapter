@@ -88,19 +88,19 @@ export class SuietWalletAdapter implements WalletCapabilities {
 
   @ensureWalletExist()
   async connect(): Promise<void> {
-    if (this.connected) return;
+    if (this.connected || this.connecting) return;
     const wallet = this.wallet as ISuietWallet;
+
     this.connecting = true;
     try {
       const res = await wallet.connect([Permission.VIEW_ACCOUNT, Permission.SUGGEST_TX]);
       if (res.error) {
-        console.error(res.error);
-        return;
+        throw new Error(res.error.msg);
       }
-      this.connected = res.data;
-    } catch (err) {
-      this.connected = false;
-      console.error(err);
+      if (res.data === false) {
+        throw new Error('user rejected to connect')
+      }
+      this.connected = true;
     } finally {
       this.connecting = false;
     }
@@ -121,10 +121,8 @@ export class SuietWalletAdapter implements WalletCapabilities {
     const wallet = this.wallet as ISuietWallet;
     const resData = await wallet.getAccounts();
     if (resData.error) {
-      console.error(resData.error);
-      return;
+      throw new Error(resData.error.msg);
     }
-    console.log('getAccounts', resData)
     return resData.data as string[];
   }
 
