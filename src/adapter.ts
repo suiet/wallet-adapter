@@ -18,7 +18,7 @@ declare const window: SuiWalletWindow;
 
 export interface ISuietWallet {
   connect: (perms: Permission[]) => Promise<ResData<any>>;
-  getAccounts: () => Promise<SuiAddress[]>;
+  getAccounts: () => Promise<ResData<SuiAddress[]>>;
   executeMoveCall: (transaction: MoveCallTransaction) => Promise<SuiTransactionResponse>;
   executeSerializedMoveCall: (transactionBytes: Uint8Array) => Promise<SuiTransactionResponse>;
   disconnect: () => Promise<void>;
@@ -92,13 +92,12 @@ export class SuietWalletAdapter implements WalletCapabilities {
     const wallet = this.wallet as ISuietWallet;
     this.connecting = true;
     try {
-      console.log('[adapter] connect', [Permission.VIEW_ACCOUNT, Permission.SUGGEST_TX])
       const res = await wallet.connect([Permission.VIEW_ACCOUNT, Permission.SUGGEST_TX]);
       if (res.error) {
         console.error(res.error);
         return;
       }
-      this.connected = true;
+      this.connected = res.data;
     } catch (err) {
       this.connected = false;
       console.error(err);
@@ -117,9 +116,16 @@ export class SuietWalletAdapter implements WalletCapabilities {
 
   @requireConnected()
   @ensureWalletExist()
-  async getAccounts(): Promise<string[]> {
+  // @ts-ignore
+  async getAccounts() {
     const wallet = this.wallet as ISuietWallet;
-    return await wallet.getAccounts();
+    const resData = await wallet.getAccounts();
+    if (resData.error) {
+      console.error(resData.error);
+      return;
+    }
+    console.log('getAccounts', resData)
+    return resData.data as string[];
   }
 
   @requireConnected()
