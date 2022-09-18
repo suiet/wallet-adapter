@@ -44,12 +44,10 @@ function Page() {
   const [accounts, setAccounts] = useState([]);
 
   function handleConnect() {
-    console.log("select", walletName);
     select(walletName);
   }
 
   function handleDisconnect() {
-    console.log("disconnect", walletName);
     setWalletName("");
     disconnect();
   }
