@@ -19,7 +19,7 @@ declare const window: SuiWalletWindow;
 export interface ISuietWallet {
   connect: (perms: Permission[]) => Promise<ResData<any>>;
   getAccounts: () => Promise<ResData<SuiAddress[]>>;
-  executeMoveCall: (transaction: MoveCallTransaction) => Promise<SuiTransactionResponse>;
+  executeMoveCall: (transaction: MoveCallTransaction) => Promise<ResData<SuiTransactionResponse>>;
   executeSerializedMoveCall: (transactionBytes: Uint8Array) => Promise<SuiTransactionResponse>;
   disconnect: () => Promise<void>;
   hasPermissions: (permissions: readonly PermissionType[]) => Promise<boolean>;
@@ -44,7 +44,7 @@ function ensureWalletExist() {
       if (!target.wallet) {
         target.wallet = window.__suiet__;
       }
-      return method.apply(target, ...args);
+      return method.apply(target, args);
     }
     return descriptor;
   }
@@ -61,7 +61,7 @@ function requireConnected() {
       if (!target.connected) {
         throw new Error(suietSay(`call function failed, wallet is not connected. methodName=${methodName}`))
       }
-      return method.apply(target, ...args)
+      return method.apply(target, args)
     }
     return descriptor;
   }
@@ -130,9 +130,13 @@ export class SuietWalletAdapter implements WalletCapabilities {
   @ensureWalletExist()
   async executeMoveCall(
     transaction: MoveCallTransaction
-  ): Promise<SuiTransactionResponse> {
+  ) {
     const wallet = this.wallet as ISuietWallet;
-    return await wallet.executeMoveCall(transaction);
+    const resData = await wallet.executeMoveCall(transaction);
+    if (resData.error) {
+      throw new Error(resData.error.msg);
+    }
+    return resData.data;
   }
 
   @requireConnected()

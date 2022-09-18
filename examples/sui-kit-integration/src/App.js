@@ -55,18 +55,26 @@ function Page() {
   }
 
   async function handleExecuteMoveCall() {
-    await executeMoveCall({
-      packageObjectId: "0x2",
-      module: "devnet_nft",
-      function: "mint",
-      typeArguments: [],
-      arguments: [
-        "name",
-        "capy",
-        "https://cdn.britannica.com/94/194294-138-B2CF7780/overview-capybara.jpg?w=800&h=450&c=crop",
-      ],
-      gasBudget: 10000,
-    });
+    try {
+      const data = {
+        packageObjectId: "0x2",
+        module: "devnet_nft",
+        function: "mint",
+        typeArguments: [],
+        arguments: [
+          "name",
+          "capy",
+          "https://cdn.britannica.com/94/194294-138-B2CF7780/overview-capybara.jpg?w=800&h=450&c=crop",
+        ],
+        gasBudget: 10000,
+      }
+      const resData = await executeMoveCall(data);
+      console.log('executeMoveCall success', resData)
+      alert('executeMoveCall succeeded (see response in the console)')
+    } catch (e) {
+      console.error('executeMoveCall failed', e)
+      alert('executeMoveCall failed (see response in the console)')
+    }
   }
 
   useEffect(() => {
