@@ -4,10 +4,12 @@ import {WalletCapabilities} from '@mysten/wallet-adapter-base';
 
 const ALL_PERMISSION_TYPES = ['viewAccount', 'suggestTransactions'] as const;
 type AllPermissionsType = typeof ALL_PERMISSION_TYPES;
+
 enum Permission {
   VIEW_ACCOUNT = 'viewAccount',
   SUGGEST_TX = 'suggestTransactions',
 }
+
 type PermissionType = AllPermissionsType[number];
 
 interface SuiWalletWindow {
@@ -33,8 +35,8 @@ function guideToInstallExtension() {
 
 function ensureWalletExist() {
   return (target: any,
-    methodName: string,
-    descriptor: PropertyDescriptor
+          methodName: string,
+          descriptor: PropertyDescriptor
   ) => {
     const method = descriptor.value;
     descriptor.value = (...args: any[]) => {
@@ -50,22 +52,22 @@ function ensureWalletExist() {
   }
 }
 
-function requireConnected() {
-  return function (
-    target: any,
-    methodName: string,
-    descriptor: PropertyDescriptor,
-  ) {
-    const method = descriptor.value;
-    descriptor.value = (...args: any) => {
-      if (!target.connected) {
-        throw new Error(suietSay(`call function failed, wallet is not connected. methodName=${methodName}`))
-      }
-      return method.apply(target, args)
-    }
-    return descriptor;
-  }
-}
+// function requireConnected() {
+//   return function (
+//     target: any,
+//     methodName: string,
+//     descriptor: PropertyDescriptor,
+//   ) {
+//     const method = descriptor.value;
+//     descriptor.value = (...args: any) => {
+//       if (!target.connected) {
+//         throw new Error(suietSay(`call function failed, wallet is not connected. methodName=${methodName}`))
+//       }
+//       return method.apply(target, args)
+//     }
+//     return descriptor;
+//   }
+// }
 
 function suietSay(msg: string) {
   return `[SUIET_WALLET]: ${msg}`
@@ -88,34 +90,23 @@ export class SuietWalletAdapter implements WalletCapabilities {
 
   @ensureWalletExist()
   async connect(): Promise<void> {
-    if (this.connected || this.connecting) return;
     const wallet = this.wallet as ISuietWallet;
-
-    this.connecting = true;
-    try {
-      const resData = await wallet.connect([Permission.VIEW_ACCOUNT, Permission.SUGGEST_TX]);
-      if (resData.error) {
-        console.error(suietSay('connection failed'), resData.error)
-        throw new Error(resData.error.msg);
-      }
-      if (resData.data === false) {
-        throw new Error('User rejected to connect')
-      }
-      this.connected = true;
-    } finally {
-      this.connecting = false;
+    const resData = await wallet.connect([Permission.VIEW_ACCOUNT, Permission.SUGGEST_TX]);
+    if (resData.error) {
+      console.error(suietSay('connection failed'), resData.error)
+      throw new Error(resData.error.msg);
+    }
+    if (resData.data === false) {
+      throw new Error('User rejected to connect')
     }
   }
 
-  @requireConnected()
   @ensureWalletExist()
   async disconnect(): Promise<void> {
     const wallet = this.wallet as ISuietWallet;
     await wallet.disconnect();
-    this.connected = false;
   }
 
-  @requireConnected()
   @ensureWalletExist()
   async getAccounts() {
     const wallet = this.wallet as ISuietWallet;
@@ -127,7 +118,6 @@ export class SuietWalletAdapter implements WalletCapabilities {
     return resData.data as string[];
   }
 
-  @requireConnected()
   @ensureWalletExist()
   async executeMoveCall(
     transaction: MoveCallTransaction
@@ -141,7 +131,6 @@ export class SuietWalletAdapter implements WalletCapabilities {
     return resData.data;
   }
 
-  @requireConnected()
   @ensureWalletExist()
   async executeSerializedMoveCall(
     transactionBytes: Uint8Array
