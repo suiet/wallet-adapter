@@ -52,23 +52,6 @@ function ensureWalletExist() {
   }
 }
 
-// function requireConnected() {
-//   return function (
-//     target: any,
-//     methodName: string,
-//     descriptor: PropertyDescriptor,
-//   ) {
-//     const method = descriptor.value;
-//     descriptor.value = (...args: any) => {
-//       if (!target.connected) {
-//         throw new Error(suietSay(`call function failed, wallet is not connected. methodName=${methodName}`))
-//       }
-//       return method.apply(target, args)
-//     }
-//     return descriptor;
-//   }
-// }
-
 function suietSay(msg: string) {
   return `[SUIET_WALLET]: ${msg}`
 }
@@ -119,16 +102,15 @@ export class SuietWalletAdapter implements WalletCapabilities {
   }
 
   @ensureWalletExist()
-  async executeMoveCall(
-    transaction: MoveCallTransaction
-  ) {
+  async executeMoveCall(transaction: MoveCallTransaction): Promise<SuiTransactionResponse> {
     const wallet = this.wallet as ISuietWallet;
     const resData = await wallet.executeMoveCall(transaction);
-    if (resData.error) {
-      console.error(suietSay('executeMoveCall failed'), resData.error)
-      throw new Error(resData.error.msg);
+    if (resData.error || resData.data === null) {
+      const errMsg = resData.error?.msg ?? 'response data is null';
+      console.error(suietSay('executeMoveCall failed'), errMsg)
+      throw new Error(errMsg);
     }
-    return resData.data;
+    return resData.data as SuiTransactionResponse;
   }
 
   @ensureWalletExist()
