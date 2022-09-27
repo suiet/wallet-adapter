@@ -1,6 +1,6 @@
 {
   "name": "@suiet/wallet-adapter",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Integration of Suiet Wallet into the Sui Wallet Adapter",
   "license": "GPL",
   "author": "Bruski <sizhe4real@gmail.com>",
@@ -26,17 +26,17 @@
     "@babel/preset-env": "^7.19.1",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
-    "@rollup/plugin-node-resolve": "^14.0.1",
+    "@rollup/plugin-node-resolve": "^14.1.0",
     "@rollup/plugin-typescript": "^8.5.0",
-    "@suiet/wallet-adapter": "workspace:^0.0.9",
+    "@suiet/wallet-adapter": "workspace:^0.0.10",
     "core-js": "^3.25.3",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2",
-    "rollup": "^2.79.0",
+    "rollup": "^2.79.1",
     "rollup-plugin-polyfill-node": "^0.10.2",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.4.0",
-    "typescript": "^4.8.2"
+    "typescript": "^4.8.3"
   },
   "repository": {
     "type": "git",
