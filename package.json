@@ -4,8 +4,9 @@
   "description": "Integration of Suiet Wallet into the Sui Wallet Adapter",
   "license": "GPL",
   "author": "Bruski <sizhe4real@gmail.com>",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.js",
+  "browser": "dist/index.js",
   "files": [
     "dist"
   ],
@@ -16,13 +17,19 @@
   },
   "dependencies": {
     "@mysten/sui.js": "0.0.0-experimental-20220926155331",
-    "@mysten/wallet-adapter-base": "0.0.0-experimental-20220926155331"
+    "@mysten/wallet-adapter-base": "0.0.0-experimental-20220926155331",
+    "@mysten/wallet-adapter-react": "^0.0.0-experimental-20220822221301"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.1",
+    "@babel/plugin-transform-runtime": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^14.0.1",
     "@rollup/plugin-typescript": "^8.5.0",
+    "@suiet/wallet-adapter": "workspace:^0.0.9",
+    "core-js": "^3.25.3",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2",
     "rollup": "^2.79.0",
