@@ -16,9 +16,8 @@
     "clean": "rimraf dist/"
   },
   "dependencies": {
-    "@mysten/sui.js": "0.0.0-experimental-20220926155331",
-    "@mysten/wallet-adapter-base": "0.0.0-experimental-20220926155331",
-    "@mysten/wallet-adapter-react": "^0.0.0-experimental-20220822221301"
+    "@mysten/sui.js": "0.11.0",
+    "@mysten/wallet-adapter-base": "0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

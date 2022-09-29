@@ -1,8 +1,100 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import {useWallet} from "@mysten/wallet-adapter-react";
+import {useEffect, useState} from "react";
+import {SuietWalletAdapter} from "@suiet/wallet-adapter";
+
+const supportedWallets = [
+  {
+    adapter: new SuietWalletAdapter(),
+  },
+];
+
+function WalletSelector(props) {
+  const {value, supportedWallets, onChange} = props;
+  return (
+    <select value={value} onChange={onChange}>
+      <option value={""} disabled>
+        please select a wallet
+      </option>
+      {supportedWallets.map((wallet) => {
+        const {name} = wallet.adapter;
+        return (
+          <option key={name} value={name}>
+            {name}
+          </option>
+        );
+      })}
+    </select>
+  );
+}
 
 export default function Home() {
+
+  const {
+    select,
+    wallet,
+    connected,
+    connecting,
+    disconnect,
+    getAccounts,
+    executeMoveCall,
+  } = useWallet();
+
+  const [walletName, setWalletName] = useState("");
+  const [accounts, setAccounts] = useState([]);
+
+  function handleConnect() {
+    select(walletName);
+  }
+
+  function handleDisconnect() {
+    setWalletName("");
+    disconnect();
+  }
+
+  async function handleExecuteMoveCall() {
+    try {
+      const data = {
+        packageObjectId: "0x2",
+        module: "devnet_nft",
+        function: "mint",
+        typeArguments: [],
+        arguments: [
+          "name",
+          "capy",
+          "https://cdn.britannica.com/94/194294-138-B2CF7780/overview-capybara.jpg?w=800&h=450&c=crop",
+        ],
+        gasBudget: 10000,
+      }
+      const resData = await executeMoveCall(data);
+      console.log('executeMoveCall success', resData)
+      alert('executeMoveCall succeeded (see response in the console)')
+    } catch (e) {
+      console.error('executeMoveCall failed', e)
+      alert('executeMoveCall failed (see response in the console)')
+    }
+  }
+
+  useEffect(() => {
+    if (!wallet) return;
+    if (wallet.adapter && !walletName) {
+      setWalletName(wallet.adapter.name);
+    }
+  }, [wallet]);
+
+  useEffect(() => {
+    if (!connected) {
+      setAccounts([]);
+      return;
+    }
+    (async function () {
+      const result = await getAccounts();
+      setAccounts(result);
+    })();
+  }, [connected]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,42 +105,47 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to
+        </h1>
+        <h1 className={styles.title}>
+          <a href="https://nextjs.org">Suiet Wallet Adapter Playground!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
+        <p>Start editing to see some magic happen!</p>
+        <div>
+          <WalletSelector
+            supportedWallets={supportedWallets}
+            value={walletName}
+            onChange={(evt) => setWalletName(evt.target.value)}
+          />
+          <button
+            style={{margin: "0px 4px"}}
+            disabled={!walletName}
+            onClick={() => {
+              if (!connected) handleConnect();
+              else handleDisconnect();
+            }}
           >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+            {connecting ? "connecting" : connected ? "Disconnect" : "connect"}
+          </button>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          {connected && (
+            <div style={{margin: "8px 0"}}>
+              <button onClick={handleExecuteMoveCall}>executeMoveCall</button>
+            </div>
+          )}
+        </div>
+        <div>
+          <p>current wallet: {wallet ? wallet.adapter.name : "null"}</p>
+          <p>
+            wallet status:{" "}
+            {connecting
+              ? "connecting"
+              : connected
+                ? "connected"
+                : "disconnected"}
+          </p>
+          <p>wallet accounts: {JSON.stringify(accounts)}</p>
         </div>
       </main>
 
