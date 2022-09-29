@@ -1,5 +1,5 @@
 {
-  "name": "with-nextjs",
+  "name": "with-next-ts",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,13 +10,17 @@
   },
   "dependencies": {
     "@mysten/wallet-adapter-react": "2.0.0",
-    "@suiet/wallet-adapter": "workspace:0.0.11",
+    "@suiet/wallet-adapter": "workspace:0.0.12",
     "next": "12.3.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/node": "18.7.23",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
     "eslint": "8.24.0",
-    "eslint-config-next": "12.3.1"
+    "eslint-config-next": "12.3.1",
+    "typescript": "4.8.4"
   }
 }

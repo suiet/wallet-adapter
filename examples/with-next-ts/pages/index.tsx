@@ -1,17 +1,18 @@
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import {ChangeEventHandler, useEffect, useState} from "react";
 import {useWallet} from "@mysten/wallet-adapter-react";
-import {useEffect, useState} from "react";
-import {SuietWalletAdapter} from "@suiet/wallet-adapter";
+import {WalletAdapter} from "@mysten/wallet-adapter-base";
+import {supportedWallets} from "./_app";
 
-const supportedWallets = [
-  {
-    adapter: new SuietWalletAdapter(),
-  },
-];
 
-function WalletSelector(props) {
+function WalletSelector(props: {
+  value: string;
+  supportedWallets: {adapter: WalletAdapter}[];
+  onChange: ChangeEventHandler<HTMLSelectElement>;
+}) {
   const {value, supportedWallets, onChange} = props;
   return (
     <select value={value} onChange={onChange}>
@@ -30,7 +31,7 @@ function WalletSelector(props) {
   );
 }
 
-export default function Home() {
+const Home: NextPage = () => {
 
   const {
     select,
@@ -43,7 +44,7 @@ export default function Home() {
   } = useWallet();
 
   const [walletName, setWalletName] = useState("");
-  const [accounts, setAccounts] = useState([]);
+  const [accounts, setAccounts] = useState<string[]>([]);
 
   function handleConnect() {
     select(walletName);
@@ -164,3 +165,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home
