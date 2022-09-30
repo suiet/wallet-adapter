@@ -28,7 +28,6 @@
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "@rollup/plugin-typescript": "^8.5.0",
-    "@suiet/wallet-adapter": "workspace:^0.0.10",
     "core-js": "^3.25.3",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2",
