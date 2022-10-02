@@ -50,7 +50,7 @@ importers:
   examples/sui-kit-integration:
     specifiers:
       '@mysten/wallet-adapter-react': 2.0.0
-      '@suiet/wallet-adapter': workspace:0.0.14
+      '@suiet/wallet-adapter': workspace:0.0.15
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.4.0
       '@testing-library/user-event': ^13.5.0
@@ -102,7 +102,7 @@ importers:
   examples/with-next-ts:
     specifiers:
       '@mysten/wallet-adapter-react': 2.0.0
-      '@suiet/wallet-adapter': workspace:0.0.14
+      '@suiet/wallet-adapter': workspace:0.0.15
       '@types/node': 18.7.23
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
