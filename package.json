@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@mysten/sui.js": "0.11.0",
-    "@mysten/wallet-adapter-base": "0.1.0"
+    "@mysten/wallet-adapter-base": "0.1.0",
+    "@suiet/wallet-adapter": "workspace:^0.0.12",
+    "@wallet-standard/features": "0.1.0-alpha.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

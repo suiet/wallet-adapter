@@ -13,7 +13,8 @@ importers:
       '@rollup/plugin-commonjs': ^22.0.2
       '@rollup/plugin-node-resolve': ^14.1.0
       '@rollup/plugin-typescript': ^8.5.0
-      '@suiet/wallet-adapter': workspace:^0.0.10
+      '@suiet/wallet-adapter': workspace:^0.0.12
+      '@wallet-standard/features': 0.1.0-alpha.0
       core-js: ^3.25.3
       cross-env: ^7.0.3
       rimraf: ^3.0.2
@@ -25,6 +26,8 @@ importers:
     dependencies:
       '@mysten/sui.js': 0.11.0
       '@mysten/wallet-adapter-base': 0.1.0
+      '@suiet/wallet-adapter': 'link:'
+      '@wallet-standard/features': 0.1.0-alpha.0
     devDependencies:
       '@babel/core': 7.19.1
       '@babel/plugin-transform-runtime': 7.19.1_@babel+core@7.19.1
@@ -33,7 +36,6 @@ importers:
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.79.1
       '@rollup/plugin-node-resolve': 14.1.0_rollup@2.79.1
       '@rollup/plugin-typescript': 8.5.0_jm3lfwhp2n3nxb4wwf6zz565he
-      '@suiet/wallet-adapter': 'link:'
       core-js: 3.25.3
       cross-env: 7.0.3
       rimraf: 3.0.2
@@ -64,6 +66,10 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-scripts: 5.0.1_qkk2h7iyrlo4uzewmb6meqitne
       web-vitals: 2.1.4
+
+  examples/suiet-kit-integration:
+    specifiers:
+      '@suiet/wallet-adapter': ^0.0.12
 
   examples/with-next-ts:
     specifiers:
@@ -2920,6 +2926,21 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.38.1
       eslint-visitor-keys: 3.3.0
+
+  /@wallet-standard/features/0.1.0-alpha.0:
+    resolution: {integrity: sha512-HRVuYpMCbO3Vmdea1uRll7bL+3eZ0GxCtkMnDnMcT2+QOH9N56cxGo6DmUbZgVkqeWKzt6i+p27QPOdXlipD1g==}
+    dependencies:
+      '@wallet-standard/standard': 0.1.0-alpha.3
+      '@wallet-standard/types': 0.1.0-alpha.3
+    dev: false
+
+  /@wallet-standard/standard/0.1.0-alpha.3:
+    resolution: {integrity: sha512-XseAI+UuTvGyU9rJBFThD/Deaa7dGoixp6r368zbUX77HZEAGfLE6b+KWsqVlop6Y5W/ewXaCzcwpyw+/R/EpQ==}
+    dev: false
+
+  /@wallet-standard/types/0.1.0-alpha.3:
+    resolution: {integrity: sha512-g+GKG0KiFw2y5WO5/g4J2KJoS3ro+lgpr9uGusa3idRjRoOXW8E60T3uFrDBrQ8jOVkclCc1U0j9ggzwZvWsTg==}
+    dev: false
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}
