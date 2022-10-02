@@ -1,6 +1,6 @@
 {
   "name": "@suiet/wallet-adapter",
-  "version": "0.0.13-1",
+  "version": "0.0.13",
   "description": "Integration of Suiet Wallet into the Sui Wallet Adapter",
   "license": "GPL",
   "author": "Bruski <sizhe4real@gmail.com>",
@@ -30,7 +30,7 @@
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "@rollup/plugin-typescript": "^8.5.0",
-    "core-js": "^3.25.3",
+    "core-js": "^3.25.4",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2",
     "rollup": "^2.79.1",
