@@ -71,7 +71,6 @@ importers:
 
   examples/suiet-kit-integration:
     specifiers:
-      '@suiet/wallet-adapter': workspace:0.0.13-0
       '@suiet/wallet-kit': ^0.0.8
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.4.0
@@ -86,7 +85,6 @@ importers:
       typescript: ^4.8.4
       web-vitals: ^2.1.4
     dependencies:
-      '@suiet/wallet-adapter': link:../..
       '@suiet/wallet-kit': 0.0.8_rj7ozvcq3uehdlnj3cbwzbi5ce
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
@@ -2788,7 +2786,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.7.23
     dev: false
 
   /@types/eslint-scope/3.7.4:
@@ -2983,7 +2981,7 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.7.23
     dev: false
 
   /@types/ws/8.5.3:
