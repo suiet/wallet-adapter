@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@mysten/wallet-adapter-base': ^0.1.0
   '@mysten/wallet-adapter-react': 2.0.0
   '@suiet/wallet-adapter': 0.0.16
   '@types/node': 18.7.23
@@ -14,6 +15,7 @@ specifiers:
   typescript: 4.8.4
 
 dependencies:
+  '@mysten/wallet-adapter-base': 0.1.0
   '@mysten/wallet-adapter-react': 2.0.0_e4sh7x6c27zfxqri6zccoghfhq
   '@suiet/wallet-adapter': 0.0.16
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y

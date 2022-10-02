@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mysten/wallet-adapter-base": "^0.1.0",
     "@mysten/wallet-adapter-react": "2.0.0",
     "@suiet/wallet-adapter": "0.0.16",
     "next": "12.3.1",
