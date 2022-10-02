@@ -4,9 +4,10 @@ import {WalletProvider, useWallet} from "@mysten/wallet-adapter-react";
 import {SuietWalletAdapter} from "@suiet/wallet-adapter";
 import {useEffect, useState} from "react";
 
+const suietAdapter = new SuietWalletAdapter();
 const supportedWallets = [
   {
-    adapter: new SuietWalletAdapter(),
+    adapter: suietAdapter,
   },
 ];
 
@@ -75,6 +76,24 @@ function Page() {
     }
   }
 
+  async function handleSignMsg() {
+    try {
+      const msg = 'Hello world!'
+      const result = await suietAdapter.signMessage({
+        message: new TextEncoder().encode('Hello world')
+      })
+      console.log('send message to be signed', msg)
+      const textDecoder = new TextDecoder()
+      console.log('signMessage success', result)
+      console.log('signMessage signature', result.signature)
+      console.log('signMessage signedMessage', textDecoder.decode(result.signedMessage).toString())
+      alert('signMessage succeeded (see response in the console)')
+    } catch (e) {
+      console.error('signMessage failed', e)
+      alert('signMessage failed (see response in the console)')
+    }
+  }
+
   useEffect(() => {
     if (!wallet) return;
     if (wallet.adapter && !walletName) {
@@ -119,6 +138,7 @@ function Page() {
           {connected && (
             <div style={{margin: "8px 0"}}>
               <button onClick={handleExecuteMoveCall}>executeMoveCall</button>
+              <button style={{marginLeft: '8px'}} onClick={handleSignMsg}>Sign Message</button>
             </div>
           )}
         </div>

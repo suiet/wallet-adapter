@@ -151,7 +151,7 @@ const Home: NextPage = () => {
           {connected && (
             <div style={{margin: "8px 0"}}>
               <button onClick={handleExecuteMoveCall}>executeMoveCall</button>
-              <button onClick={handleSignMsg}>Sign Message</button>
+              <button style={{marginLeft: '8px'}} onClick={handleSignMsg}>Sign Message</button>
             </div>
           )}
         </div>
