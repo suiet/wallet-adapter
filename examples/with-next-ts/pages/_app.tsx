@@ -14,7 +14,6 @@ export const supportedWallets: { adapter: WalletAdapter }[] = [
 function MyApp({Component, pageProps}: AppProps) {
   return (
     <WalletProvider supportedWallets={supportedWallets}>
-
       <Component {...pageProps} />
     </WalletProvider>
   )

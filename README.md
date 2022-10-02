@@ -140,6 +140,35 @@ There you go ✅ Go connect with our wallet with custom UI selector!
 > You can try our [@suiet/wallet-kit](https://www.npmjs.com/package/@suiet/wallet-kit) which fully support it and also
 > many handful features
 
+```ts
+signMessage: (input: { message: Uint8Array }) => Promise<{
+  signature: Uint8Array;
+  signedMessage: Uint8Array;
+}>
+```
+
+If you are using `@suiet/wallet-kit`, you can use `signMessage` function from hooks.
+
+If you are using SUI official kit which has not supported this feature, you can try the below hack (when connected to
+Suiet Wallet):
+
+```js
+import {SuietWalletAdapter} from "@suiet/wallet-adapter";
+
+const suietAdapter = new SuietWalletAdapter();
+
+async function signMessage() {
+  const result = await suietAdapter.signMessage({
+    message: new TextEncoder().encode('Hello world')
+  })
+
+  const textDecoder = new TextDecoder()
+  console.log('signMessage success', result)
+  console.log('signMessage signature', result.signature)
+  console.log('signMessage signedMessage', textDecoder.decode(result.signedMessage).toString())
+}
+```
+
 ## 💡 Demo playground
 
 We also prepared a demo for developers, feel free to check it out:
