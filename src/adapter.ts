@@ -2,12 +2,16 @@
 import {MoveCallTransaction, SuiTransactionResponse} from '@mysten/sui.js';
 import {IWindowSuietApi, ISuietWalletAdapter, Permission, ResData, SignMsgResult} from "./types";
 import {SignMessageInput, SignMessageOutput} from "@wallet-standard/features";
+import {Buffer} from "buffer";
 
 const {baseDecode, baseEncode} = require('borsh')
 
 declare const window: {
   __suiet__: IWindowSuietApi;
+  Buffer: Buffer;
 };
+// @ts-ignore
+window.Buffer = Buffer;
 
 export class SuietWalletAdapter implements ISuietWalletAdapter {
   name = 'Suiet';
