@@ -1,7 +1,9 @@
 // Copyright © 2022, Suiet Team
 import {MoveCallTransaction, SuiTransactionResponse} from '@mysten/sui.js';
-import {IWindowSuietApi, ISuietWalletAdapter, Permission, ResData} from "./types";
+import {IWindowSuietApi, ISuietWalletAdapter, Permission, ResData, SignMsgResult} from "./types";
 import {SignMessageInput, SignMessageOutput} from "@wallet-standard/features";
+
+const {baseDecode, baseEncode} = require('borsh')
 
 declare const window: {
   __suiet__: IWindowSuietApi;
@@ -61,13 +63,15 @@ export class SuietWalletAdapter implements ISuietWalletAdapter {
   @ensureWalletExist()
   async signMessage(input: SignMessageInput): Promise<SignMessageOutput> {
     const wallet = this.wallet as IWindowSuietApi;
-    const resData = await wallet.signMessage(input);
+    const resData = await wallet.signMessage({
+      message: baseEncode(input.message)
+    });
     this.checkError(resData, 'signMessage')
     this.checkDataIsNull(resData, 'signMessage');
-    const data = resData.data as SignMessageOutput;
+    const data = resData.data as SignMsgResult;
     return {
-      signature: data.signature,
-      signedMessage: data.signedMessage
+      signature: baseDecode(data.signature),
+      signedMessage: baseDecode(data.signedMessage)
     };
   }
 
