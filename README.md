@@ -4,19 +4,41 @@
 
 # Suiet Wallet Adapter
 
-> 👋 If you want to know how to **install/use** suiet, please visit our offical website [suiet.app](https://suiet.app) or [docs](https://suiet.app/docs)
+> 👋 If you want to know how to **install/use** suiet, please visit our offical website [suiet.app](https://suiet.app)
+> or [docs](https://suiet.app/docs)
 
 Integrate your DApp with Suiet Wallet from now on 🥳
 
-We've presented an adapter that implemented the interface of [SUI Wallet Adapter](https://github.com/MystenLabs/sui/tree/main/wallet-adapter) for you✨ With this adapter, your DApp can easily connect with the Suiet Wallet Extension, which enables DApp to retrieve basic info of user's wallet and launch manipulation requests such as transaction signing. 
+We've presented an adapter that implemented the interface
+of [SUI Wallet Adapter](https://github.com/MystenLabs/sui/tree/main/wallet-adapter) for you✨ With this adapter, your
+DApp can easily connect with the Suiet Wallet Extension, which enables DApp to retrieve basic info of user's wallet and
+launch manipulation requests such as transaction signing.
 
-For React DApps, the Sui team has provided **React context provider** and **React hook** in the npm package [@mysten/wallet-adapter-react](https://github.com/MystenLabs/sui/tree/main/wallet-adapter/packages/react-providers). Therefore we can simply register the Suiet Adapter into the official provider and then make use of them.
+1️⃣ First-choice integration guide
 
-> ⚠️ Right now Suiet doesn't provide UI kits such as Wallet Select Modal, you may need to custom them on your own or simply forked from [Sui repo](https://github.com/MystenLabs/sui/tree/main/wallet-adapter/packages/ui/src). 
+Try our [@suiet/wallet-kit](https://www.npmjs.com/package/@suiet/wallet-kit) for easy integration with this
+adapter🥳
 
-> ⚠️ Usage with React ONLY: According to the [sui wallet repo](https://github.com/MystenLabs/sui/tree/main/wallet-adapter#usage-without-react), the library only supports React DApp.
+`@suiet/wallet-kit` is an all-in-one wallet connection kit with nice UI components for dapps , which connects your dapp
+with wallets on SUI and
+empowers your dapp with awesome wallet abilities🪄
+
+2️⃣ Manual integration guide
+
+For React DApps, the Sui team has provided **React context provider** and **React hook** in the
+npm
+package [@mysten/wallet-adapter-react](https://github.com/MystenLabs/sui/tree/main/wallet-adapter/packages/react-providers)
+. Therefore we can simply register the Suiet Adapter into the official provider and then make use of them.
+
+> ⚠️ Usage with React ONLY: We only support React DApp right now.
 
 ## 🚀 Get Started
+
+### Easy Integration with Suiet wallet kit
+
+🔗 Quick start in minutes: [https://kit.suiet.app/docs/QuickStart](https://kit.suiet.app/docs/QuickStart)
+
+### Maunal Integration with SUI official kit
 
 ### ⚙️ Prerequisites
 
@@ -31,17 +53,17 @@ npm install @mysten/wallet-adapter-react @suiet/wallet-adapter
 
 ```jsx
 // main.js
-import { WalletProvider } from "@mysten/wallet-adapter-react";
-import { SuietWalletAdapter } from "@suiet/wallet-adapter";
+import {WalletProvider} from "@mysten/wallet-adapter-react";
+import {SuietWalletAdapter} from "@suiet/wallet-adapter";
 
 const supportedWallets = [
-  { adapter: new SuietWalletAdapter() },
+  {adapter: new SuietWalletAdapter()},
 ];
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <WalletProvider supportedWallets={supportedWallets}>
-      <App />
+      <App/>
     </WalletProvider>
   </React.StrictMode>
 );
@@ -52,7 +74,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 ```jsx
 // App.jsx
 import {useEffect} from "react";
-import { useWallet } from "@mysten/wallet-adapter-react";
+import {useWallet} from "@mysten/wallet-adapter-react";
 
 function App() {
   const {
@@ -109,6 +131,14 @@ function App() {
 ```
 
 There you go ✅ Go connect with our wallet with custom UI selector!
+
+## ✨ Features
+
+### Sign Message
+
+> ⚠️ Sui official react kit doesn't support this feature right now.
+> You can try our [@suiet/wallet-kit](https://www.npmjs.com/package/@suiet/wallet-kit) which fully support it and also
+> many handful features
 
 ## 💡 Demo playground
 
