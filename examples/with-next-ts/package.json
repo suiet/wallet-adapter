@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@mysten/wallet-adapter-react": "2.0.0",
-    "@suiet/wallet-adapter": "workspace:0.0.15",
+    "@suiet/wallet-adapter": "workspace:0.0.16",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
