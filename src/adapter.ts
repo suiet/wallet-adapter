@@ -67,6 +67,15 @@ export class SuietWalletAdapter implements ISuietWalletAdapter {
     return resData.data as SignMessageOutput;
   }
 
+  @ensureWalletExist()
+  async getPublicKey(): Promise<string> {
+    const wallet = this.wallet as IWindowSuietApi;
+    const resData = await wallet.getPublicKey();
+    this.checkError(resData, 'getPublicKey')
+    this.checkDataIsNull(resData, 'getPublicKey');
+    return resData.data as string;
+  }
+
   private checkError(resData: ResData, func: string) {
     if (resData.error) {
       const errMsg = resData.error?.msg ?? 'Unknown Error';

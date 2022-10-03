@@ -32,8 +32,10 @@ export interface IWindowSuietApi {
   hasPermissions: (permissions: readonly PermissionType[]) => Promise<ResData<boolean>>;
   requestPermissions: () => Promise<ResData<boolean>>;
   signMessage: (input: SignMessageInput) => Promise<ResData<SignMessageOutput>>;
+  getPublicKey: () => Promise<ResData<string>>;
 }
 
 export interface ISuietWalletAdapter extends WalletCapabilities {
   signMessage: (input: SignMessageInput) => Promise<SignMessageOutput>;
+  getPublicKey: () => Promise<string>;
 }
