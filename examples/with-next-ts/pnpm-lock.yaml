@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@mysten/wallet-adapter-base': ^0.1.0
   '@mysten/wallet-adapter-react': 2.0.0
-  '@suiet/wallet-adapter': 0.0.16
+  '@suiet/wallet-adapter': 0.0.17
   '@types/node': 18.7.23
   '@types/react': 18.0.21
   '@types/react-dom': 18.0.6
@@ -17,7 +17,7 @@ specifiers:
 dependencies:
   '@mysten/wallet-adapter-base': 0.1.0
   '@mysten/wallet-adapter-react': 2.0.0_e4sh7x6c27zfxqri6zccoghfhq
-  '@suiet/wallet-adapter': 0.0.16
+  '@suiet/wallet-adapter': 0.0.17
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -301,8 +301,8 @@ packages:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
 
-  /@suiet/wallet-adapter/0.0.16:
-    resolution: {integrity: sha512-j+G9pijp5Tv/TcQzAXUt4Lzm9mFidK7YkrYRPFlCRI9HjcKGDJPShhYkk93jMBH4zA/BQ93Sv9yQPaZfoAY7sQ==}
+  /@suiet/wallet-adapter/0.0.17:
+    resolution: {integrity: sha512-NO5vN1w9wExkI0hz3FHRCRfQWhZmodPxqnIkLx3Tiu4qcKDeFUujYZu1KSXDx8/yjlyFahjryt1CcTh0zHuKmA==}
     dependencies:
       '@mysten/sui.js': 0.11.0
       '@mysten/wallet-adapter-base': 0.1.0

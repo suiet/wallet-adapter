@@ -45,6 +45,7 @@ const Home: NextPage = () => {
 
   const [walletName, setWalletName] = useState("");
   const [accounts, setAccounts] = useState<string[]>([]);
+  const [publicKey, setPublicKey] = useState('');
 
   function handleConnect() {
     select(walletName);
@@ -78,6 +79,17 @@ const Home: NextPage = () => {
     }
   }
 
+  async function getPublicKey() {
+    try {
+      const publicKey = await suietAdapter.getPublicKey()
+      console.log('publicKey', publicKey)
+      return publicKey
+    } catch (e) {
+      console.error('get publicKey failed', e)
+      throw e
+    }
+  }
+
   async function handleSignMsg() {
     try {
       const msg = 'Hello world!'
@@ -106,11 +118,14 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (!connected) {
       setAccounts([]);
+      setPublicKey('')
       return;
     }
     (async function () {
       const result = await getAccounts();
       setAccounts(result);
+      const publicKey = await getPublicKey();
+      setPublicKey(publicKey)
     })();
   }, [connected]);
 
@@ -166,6 +181,7 @@ const Home: NextPage = () => {
                 : "disconnected"}
           </p>
           <p>wallet accounts: {JSON.stringify(accounts)}</p>
+          <p>account public key: {publicKey}</p>
         </div>
       </main>
 
