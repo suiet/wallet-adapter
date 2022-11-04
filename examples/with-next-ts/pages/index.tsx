@@ -7,7 +7,6 @@ import {useWallet} from "@mysten/wallet-adapter-react";
 import {WalletAdapter} from "@mysten/wallet-adapter-base";
 import {suietAdapter, supportedWallets} from "./_app";
 
-
 function WalletSelector(props: {
   value: string;
   supportedWallets: { adapter: WalletAdapter }[];
@@ -101,7 +100,18 @@ const Home: NextPage = () => {
       console.log('signMessage success', result)
       console.log('signMessage signature', result.signature)
       console.log('signMessage signedMessage', textDecoder.decode(result.signedMessage).toString())
-      alert('signMessage succeeded (see response in the console)')
+      const publicKey = await getPublicKey();
+      console.log('public key', publicKey)
+      const isCorrect = tweetnacl.sign.detached.verify(
+        result.signedMessage,
+        result.signature,
+        publicKey,
+      )
+      if (!isCorrect) {
+        alert('signMessage succeeded, but verify failed (see response in the console)')
+        return
+      }
+      alert('signMessage succeeded, verify passed (see response in the console)')
     } catch (e) {
       console.error('signMessage failed', e)
       alert('signMessage failed (see response in the console)')

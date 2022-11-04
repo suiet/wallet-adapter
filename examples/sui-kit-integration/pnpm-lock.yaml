@@ -9,6 +9,7 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   react-scripts: 5.0.1
+  tweetnacl: ^1.0.3
   web-vitals: ^2.1.4
 
 dependencies:
@@ -20,6 +21,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-scripts: 5.0.1_dbnkmta66qj5qdwz5xpgscew3y
+  tweetnacl: 1.0.3
   web-vitals: 2.1.4
 
 packages:
