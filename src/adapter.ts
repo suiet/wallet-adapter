@@ -68,12 +68,12 @@ export class SuietWalletAdapter implements ISuietWalletAdapter {
   }
 
   @ensureWalletExist()
-  async getPublicKey(): Promise<string> {
+  async getPublicKey(): Promise<Uint8Array> {
     const wallet = this.wallet as IWindowSuietApi;
     const resData = await wallet.getPublicKey();
     this.checkError(resData, 'getPublicKey')
     this.checkDataIsNull(resData, 'getPublicKey');
-    return resData.data as string;
+    return resData.data as Uint8Array;
   }
 
   private checkError(resData: ResData, func: string) {
