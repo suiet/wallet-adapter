@@ -152,8 +152,11 @@ If you are using `@suiet/wallet-kit`, you can use `signMessage` function from ho
 If you are using SUI official kit which has not supported this feature, you can try the below hack (when connected to
 Suiet Wallet):
 
+> Suiet Wallet version should >= 0.1.25
+
 ```js
 import {SuietWalletAdapter} from "@suiet/wallet-adapter";
+import * as tweetnacl from 'tweetnacl'  // crypto lib for verify signature
 
 const suietAdapter = new SuietWalletAdapter();
 
@@ -164,8 +167,18 @@ async function signMessage() {
 
   const textDecoder = new TextDecoder()
   console.log('signMessage success', result)
-  console.log('signMessage signature', result.signature)
-  console.log('signMessage signedMessage', textDecoder.decode(result.signedMessage).toString())
+  console.log('signMessage signature', result.signature)  // output -> Uint8Array
+  console.log('signMessage signedMessage', textDecoder.decode(result.signedMessage).toString()) // Uint8Array of your raw message
+
+  // verify signMessage with 
+  const publicKey = await suietAdapter.getPublicKey()
+  console.log('publicKey', publicKey)  // output -> Uint8Array(32)
+  const isValidSignature = tweetnacl.sign.detached.verify(
+    result.signedMessage,
+    result.signature,
+    publicKey,
+  )
+  console.log('verify signature with publicKey: ', isValidSignature)
 }
 ```
 

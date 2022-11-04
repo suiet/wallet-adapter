@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@mysten/wallet-adapter-react': 2.0.0
-  '@suiet/wallet-adapter': 0.0.17
+  '@suiet/wallet-adapter': 0.0.18
   '@testing-library/jest-dom': ^5.16.5
   '@testing-library/react': ^13.4.0
   '@testing-library/user-event': ^13.5.0
@@ -14,7 +14,7 @@ specifiers:
 
 dependencies:
   '@mysten/wallet-adapter-react': 2.0.0_e4sh7x6c27zfxqri6zccoghfhq
-  '@suiet/wallet-adapter': 0.0.17
+  '@suiet/wallet-adapter': 0.0.18
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 13.5.0_znccgeejomvff3jrsk3ljovfpu
@@ -2142,8 +2142,8 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: false
 
-  /@suiet/wallet-adapter/0.0.17:
-    resolution: {integrity: sha512-NO5vN1w9wExkI0hz3FHRCRfQWhZmodPxqnIkLx3Tiu4qcKDeFUujYZu1KSXDx8/yjlyFahjryt1CcTh0zHuKmA==}
+  /@suiet/wallet-adapter/0.0.18:
+    resolution: {integrity: sha512-QsFV2GfAY0+UjUAATAJ6eiG39F34cTAc98PxNwMbwE6uT8fhVSzI9ywY5Dj+WZKOE3rYGRfLXIioJfkKjZid1w==}
     dependencies:
       '@mysten/sui.js': 0.11.0
       '@mysten/wallet-adapter-base': 0.1.0

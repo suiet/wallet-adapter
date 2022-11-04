@@ -6,6 +6,7 @@ import {ChangeEventHandler, useEffect, useState} from "react";
 import {useWallet} from "@mysten/wallet-adapter-react";
 import {WalletAdapter} from "@mysten/wallet-adapter-base";
 import {suietAdapter, supportedWallets} from "./_app";
+import * as tweetnacl from 'tweetnacl'
 
 function WalletSelector(props: {
   value: string;
@@ -44,7 +45,7 @@ const Home: NextPage = () => {
 
   const [walletName, setWalletName] = useState("");
   const [accounts, setAccounts] = useState<string[]>([]);
-  const [publicKey, setPublicKey] = useState('');
+  const [publicKey, setPublicKey] = useState<Uint8Array | undefined>();
 
   function handleConnect() {
     select(walletName);
@@ -78,17 +79,6 @@ const Home: NextPage = () => {
     }
   }
 
-  async function getPublicKey() {
-    try {
-      const publicKey = await suietAdapter.getPublicKey()
-      console.log('publicKey', publicKey)
-      return publicKey
-    } catch (e) {
-      console.error('get publicKey failed', e)
-      throw e
-    }
-  }
-
   async function handleSignMsg() {
     try {
       const msg = 'Hello world!'
@@ -100,7 +90,7 @@ const Home: NextPage = () => {
       console.log('signMessage success', result)
       console.log('signMessage signature', result.signature)
       console.log('signMessage signedMessage', textDecoder.decode(result.signedMessage).toString())
-      const publicKey = await getPublicKey();
+      const publicKey = await suietAdapter.getPublicKey();
       console.log('public key', publicKey)
       const isCorrect = tweetnacl.sign.detached.verify(
         result.signedMessage,
@@ -128,13 +118,13 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (!connected) {
       setAccounts([]);
-      setPublicKey('')
+      setPublicKey(undefined)
       return;
     }
     (async function () {
       const result = await getAccounts();
       setAccounts(result);
-      const publicKey = await getPublicKey();
+      const publicKey = await suietAdapter.getPublicKey();
       setPublicKey(publicKey)
     })();
   }, [connected]);

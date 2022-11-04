@@ -11,10 +11,11 @@
   "dependencies": {
     "@mysten/wallet-adapter-base": "^0.1.0",
     "@mysten/wallet-adapter-react": "2.0.0",
-    "@suiet/wallet-adapter": "0.0.17",
+    "@suiet/wallet-adapter": "0.0.18",
     "next": "12.3.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
     "@types/node": "18.7.23",
