@@ -4,6 +4,8 @@
 
 # Suiet Wallet Adapter
 
+**⚠️ Deprecation Announcement: This package will not be maintained, please switch to our [wallet-kit](https://github.com/suiet/wallet-kit) instead. Because Sui team has come up with a [wallet-standard](https://github.com/MystenLabs/sui/tree/main/sdk/wallet-adapter/wallet-standard) which introduces a standard way to integrate with wallets on Sui.**
+
 > 👋 If you want to know how to **install/use** suiet, please visit our offical website [suiet.app](https://suiet.app)
 > or [docs](https://suiet.app/docs)
 
