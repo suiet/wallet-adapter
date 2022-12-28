@@ -3,7 +3,7 @@ import "./App.css";
 import {WalletProvider, useWallet} from "@mysten/wallet-adapter-react";
 import {SuietWalletAdapter} from "@suiet/wallet-adapter";
 import {useEffect, useState} from "react";
-import * as tweetnacl from 'tweetnacl'
+import * as tweetnacl from 'tweetnacl';
 
 const suietAdapter = new SuietWalletAdapter();
 const supportedWallets = [
@@ -40,6 +40,7 @@ function Page() {
     disconnect,
     getAccounts,
     executeMoveCall,
+    // executeSerializedMoveCall
   } = useWallet();
 
   const [walletName, setWalletName] = useState("");
@@ -78,6 +79,34 @@ function Page() {
     }
   }
 
+  // async function handleExecuteSerializedMoveCall() {
+  //   try {
+  //     const data = {
+  //       packageObjectId: "0x2",
+  //       module: "devnet_nft",
+  //       function: "mint",
+  //       typeArguments: [],
+  //       arguments: [
+  //         "name",
+  //         "capy",
+  //         "https://cdn.britannica.com/94/194294-138-B2CF7780/overview-capybara.jpg?w=800&h=450&c=crop",
+  //       ],
+  //       gasBudget: 10000,
+  //     }
+  //     const txBytes = new TextEncoder().encode(JSON.stringify(data))
+  //     const dataToSign = new Uint8Array(3 + txBytes.length)
+  //     dataToSign.set([0, 0, 0])
+  //     dataToSign.set(txBytes, 3)
+  //     const resData = await executeSerializedMoveCall(dataToSign);
+  //     console.log('executeSerializedMoveCall success', resData)
+  //     alert('executeSerializedMoveCall succeeded (see response in the console)')
+  //   } catch (e) {
+  //     console.error('executeSerializedMoveCall failed', e)
+  //     alert('executeSerializedMoveCall failed (see response in the console)')
+  //   }
+  // }
+
+
   async function handleSignMsg() {
     try {
       const msg = 'Hello world!'
@@ -115,6 +144,22 @@ function Page() {
     } catch (e) {
       console.error('get publicKey failed', e)
       throw e
+    }
+  }
+
+  async function handleReqPerms() {
+    try {
+      const res = await suietAdapter.hasPermissions()
+      console.log('hasPermissions res', res)
+    } catch (e) {
+      console.error('hasPermissions error', e)
+    }
+
+    try {
+      const res = await suietAdapter.requestPermissions()
+      console.log('requestPermissions res', res)
+    } catch (e) {
+      console.error('requestPermissions error', e)
     }
   }
 
@@ -162,10 +207,16 @@ function Page() {
             {connecting ? "connecting" : connected ? "Disconnect" : "connect"}
           </button>
 
-          {connected && (
+          {connected ? (
             <div style={{margin: "8px 0"}}>
               <button onClick={handleExecuteMoveCall}>executeMoveCall</button>
+              {/*<button style={{marginLeft: '8px'}} onClick={handleExecuteSerializedMoveCall}>executeSerializedMoveCall*/}
+              {/*</button>*/}
               <button style={{marginLeft: '8px'}} onClick={handleSignMsg}>Sign Message</button>
+            </div>
+          ) : (
+            <div style={{margin: "8px 0"}}>
+              <button style={{marginLeft: '8px'}} onClick={handleReqPerms}>Request Permissions</button>
             </div>
           )}
         </div>

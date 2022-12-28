@@ -7,7 +7,7 @@ importers:
       '@babel/core': ^7.19.3
       '@babel/plugin-transform-runtime': ^7.19.1
       '@babel/preset-env': ^7.19.3
-      '@mysten/sui.js': 0.11.0
+      '@mysten/sui.js': 0.20.0
       '@mysten/wallet-adapter-base': 0.1.0
       '@rollup/plugin-babel': ^5.3.1
       '@rollup/plugin-commonjs': ^22.0.2
@@ -25,7 +25,7 @@ importers:
       tslib: ^2.4.0
       typescript: ^4.8.4
     dependencies:
-      '@mysten/sui.js': 0.11.0
+      '@mysten/sui.js': 0.20.0
       '@mysten/wallet-adapter-base': 0.1.0
       '@wallet-standard/features': 0.1.0-alpha.0
       borsh: 0.7.0
@@ -1931,6 +1931,10 @@ packages:
       bn.js: 5.2.1
     dev: false
 
+  /@mysten/bcs/0.5.0:
+    resolution: {integrity: sha512-FjGnXZfR4dY01Q1l3xjgaU+ruIlVomXZk8vzgsQXPFOv7O4pNiOOpJyMEMUnWcyUiktk4R9MxoJJrygOtdxaUw==}
+    dev: false
+
   /@mysten/sui.js/0.11.0:
     resolution: {integrity: sha512-AGdvotFCEAFAqPjBnUJ/taNaSxisXibpcQXLSBE5PTo0YUqQjTaF76sm57SY0ZZMAhnSxacnM5kP0UuNkZc1ew==}
     engines: {node: '>=16'}
@@ -1940,6 +1944,29 @@ packages:
       '@noble/secp256k1': 1.7.0
       bn.js: 5.2.1
       buffer: 6.0.3
+      cross-fetch: 3.1.5
+      jayson: 3.7.0
+      js-sha3: 0.8.0
+      lossless-json: 1.0.5
+      rpc-websockets: 7.5.0
+      tweetnacl: 1.0.3
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@mysten/sui.js/0.20.0:
+    resolution: {integrity: sha512-U25eSGKT08XPCRKHbrvDYlylOSAIQASMKKwnreC8vT3ukvQg1NwTX+SFZPvX+xsLZGS2b3yOQ2Uzhzho5/OIWA==}
+    engines: {node: '>=16'}
+    dependencies:
+      '@mysten/bcs': 0.5.0
+      '@noble/hashes': 1.1.3
+      '@noble/secp256k1': 1.7.0
+      '@scure/bip32': 1.1.1
+      '@scure/bip39': 1.1.0
+      '@suchipi/femver': 1.0.0
+      bs58: 5.0.0
       cross-fetch: 3.1.5
       jayson: 3.7.0
       js-sha3: 0.8.0
@@ -2478,6 +2505,25 @@ packages:
   /@rushstack/eslint-patch/1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
 
+  /@scure/base/1.1.1:
+    resolution: {integrity: sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA==}
+    dev: false
+
+  /@scure/bip32/1.1.1:
+    resolution: {integrity: sha512-UmI+liY7np2XakaW+6lMB6HZnpczWk1yXZTxvg8TM8MdOcKHCGL1YkraGj8eAjPfMwFNiAyek2hXmS/XFbab8g==}
+    dependencies:
+      '@noble/hashes': 1.1.3
+      '@noble/secp256k1': 1.7.0
+      '@scure/base': 1.1.1
+    dev: false
+
+  /@scure/bip39/1.1.0:
+    resolution: {integrity: sha512-pwrPOS16VeTKg98dYXQyIjJEcWfz7/1YJIwxUEPFfQPtc86Ym/1sVgQ2RLoD43AazMk2l/unK4ITySSpW2+82w==}
+    dependencies:
+      '@noble/hashes': 1.1.3
+      '@scure/base': 1.1.1
+    dev: false
+
   /@sinclair/typebox/0.24.44:
     resolution: {integrity: sha512-ka0W0KN5i6LfrSocduwliMMpqVgohtPFidKdMEOUjoOFCHcOOYkKsPRxfs5f15oPNHTm6ERAm0GV/+/LTKeiWg==}
     dev: false
@@ -2492,6 +2538,10 @@ packages:
     resolution: {integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==}
     dependencies:
       '@sinonjs/commons': 1.8.3
+    dev: false
+
+  /@suchipi/femver/1.0.0:
+    resolution: {integrity: sha512-bprE8+K5V+DPX7q2e2K57ImqNBdfGHDIWaGI5xHxZoxbKOuQZn4wzPiUxOAHnsUr3w3xHrWXwN7gnG/iIuEMIg==}
     dev: false
 
   /@suiet/wallet-adapter/0.0.12:
@@ -3861,6 +3911,10 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /base-x/4.0.0:
+    resolution: {integrity: sha512-FuwxlW4H5kh37X/oW59pwTzzTKRzfrrQwhmyspRM7swOEZcHtDZSCt45U6oKgtuFE+WYPblePMVIPR4RZrh/hw==}
+    dev: false
+
   /base64-js/1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
     dev: false
@@ -3973,6 +4027,12 @@ packages:
     resolution: {integrity: sha512-Ok3Wdf5vOIlBrgCvTq96gBkJw+JUEzdBgyaza5HLtPm7yTHkjRy8+JzNyHF7BHa0bNWOQIp3m5YF0nnFcOIKLw==}
     dependencies:
       base-x: 3.0.9
+    dev: false
+
+  /bs58/5.0.0:
+    resolution: {integrity: sha512-r+ihvQJvahgYT50JD05dyJNKlmmSlMoOGwn1lCcEzanPglg7TxYjioQUYehQ9mAR/+hOSd2jRc/Z2y5UxBymvQ==}
+    dependencies:
+      base-x: 4.0.0
     dev: false
 
   /bser/2.1.1:
