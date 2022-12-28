@@ -1,4 +1,4 @@
-import {MoveCallTransaction, SuiAddress, SuiTransactionResponse} from "@mysten/sui.js";
+import {MoveCallTransaction, SuiAddress, SuiExecuteTransactionResponse} from "@mysten/sui.js";
 import {WalletCapabilities} from "@mysten/wallet-adapter-base";
 import type {
   SignMessageInput,
@@ -26,16 +26,24 @@ export interface ResData<T = any> {
 export interface IWindowSuietApi {
   connect: (perms: Permission[]) => Promise<ResData<any>>;
   getAccounts: () => Promise<ResData<SuiAddress[]>>;
-  executeMoveCall: (transaction: MoveCallTransaction) => Promise<ResData<SuiTransactionResponse>>;
-  executeSerializedMoveCall: (transactionBytes: Uint8Array) => Promise<ResData<SuiTransactionResponse>>;
+  executeMoveCall: (transaction: MoveCallTransaction) => Promise<ResData<SuiExecuteTransactionResponse>>;
+  executeSerializedMoveCall: (transactionBytes: Uint8Array) => Promise<ResData<SuiExecuteTransactionResponse>>;
   disconnect: () => Promise<ResData<void>>;
   hasPermissions: (permissions: readonly PermissionType[]) => Promise<ResData<boolean>>;
-  requestPermissions: () => Promise<ResData<boolean>>;
+  requestPermissions: (permissions: readonly PermissionType[]) => Promise<ResData<boolean>>;
   signMessage: (input: SignMessageInput) => Promise<ResData<SignMessageOutput>>;
   getPublicKey: () => Promise<ResData<Uint8Array>>;
 }
 
-export interface ISuietWalletAdapter extends WalletCapabilities {
+export interface ISuietWalletAdapter extends Omit<WalletCapabilities, "executeMoveCall" | "executeSerializedMoveCall"> {
+  executeMoveCall: (
+    transaction: MoveCallTransaction
+  ) => Promise<SuiExecuteTransactionResponse>;
+  executeSerializedMoveCall: (
+    transactionBytes: Uint8Array
+  ) => Promise<SuiExecuteTransactionResponse>;
   signMessage: (input: SignMessageInput) => Promise<SignMessageOutput>;
   getPublicKey: () => Promise<Uint8Array>;
+  hasPermissions: (permissions: readonly PermissionType[]) => Promise<boolean>;
+  requestPermissions: (permissions: readonly PermissionType[]) => Promise<boolean>;
 }

@@ -1,6 +1,12 @@
 // Copyright © 2022, Suiet Team
-import {MoveCallTransaction, SuiTransactionResponse} from '@mysten/sui.js';
-import {IWindowSuietApi, ISuietWalletAdapter, Permission, ResData} from "./types";
+import {MoveCallTransaction, SuiExecuteTransactionResponse, SuiTransactionResponse} from '@mysten/sui.js';
+import {
+  IWindowSuietApi,
+  ISuietWalletAdapter,
+  Permission,
+  ResData,
+  ALL_PERMISSION_TYPES, PermissionType
+} from "./types";
 import {SignMessageInput, SignMessageOutput} from "@wallet-standard/features";
 
 declare const window: {
@@ -39,23 +45,41 @@ export class SuietWalletAdapter implements ISuietWalletAdapter {
   }
 
   @ensureWalletExist()
-  async executeMoveCall(transaction: MoveCallTransaction): Promise<SuiTransactionResponse> {
+  async hasPermissions(permissions: readonly PermissionType[] = ALL_PERMISSION_TYPES) {
+    const wallet = this.wallet as IWindowSuietApi;
+    const resData = await wallet.hasPermissions(permissions);
+    this.checkError(resData, 'hasPermissions')
+    this.checkDataIsNull(resData, 'hasPermissions')
+    return resData.data as boolean;
+  }
+
+  @ensureWalletExist()
+  async requestPermissions(permissions: readonly PermissionType[] = ALL_PERMISSION_TYPES) {
+    const wallet = this.wallet as IWindowSuietApi;
+    const resData = await wallet.requestPermissions(permissions);
+    this.checkError(resData, 'requestPermissions')
+    this.checkDataIsNull(resData, 'requestPermissions')
+    return resData.data as boolean;
+  }
+
+  @ensureWalletExist()
+  async executeMoveCall(transaction: MoveCallTransaction): Promise<SuiExecuteTransactionResponse> {
     const wallet = this.wallet as IWindowSuietApi;
     const resData = await wallet.executeMoveCall(transaction);
     this.checkError(resData, 'executeMoveCall')
     this.checkDataIsNull(resData, 'executeMoveCall')
-    return resData.data as SuiTransactionResponse;
+    return resData.data as SuiExecuteTransactionResponse;
   }
 
   @ensureWalletExist()
   async executeSerializedMoveCall(
     transactionBytes: Uint8Array
-  ): Promise<SuiTransactionResponse> {
+  ): Promise<SuiExecuteTransactionResponse> {
     const wallet = this.wallet as IWindowSuietApi;
     const resData = await wallet.executeSerializedMoveCall(transactionBytes);
     this.checkError(resData, 'executeSerializedMoveCall')
     this.checkDataIsNull(resData, 'executeSerializedMoveCall')
-    return resData.data as SuiTransactionResponse;
+    return resData.data as SuiExecuteTransactionResponse;
   }
 
   @ensureWalletExist()
