@@ -1,5 +1,5 @@
 // Copyright © 2022, Suiet Team
-import {MoveCallTransaction, SuiTransactionResponse} from '@mysten/sui.js';
+import {MoveCallTransaction, SuiExecuteTransactionResponse, SuiTransactionResponse} from '@mysten/sui.js';
 import {
   IWindowSuietApi,
   ISuietWalletAdapter,
@@ -63,23 +63,23 @@ export class SuietWalletAdapter implements ISuietWalletAdapter {
   }
 
   @ensureWalletExist()
-  async executeMoveCall(transaction: MoveCallTransaction): Promise<SuiTransactionResponse> {
+  async executeMoveCall(transaction: MoveCallTransaction): Promise<SuiExecuteTransactionResponse> {
     const wallet = this.wallet as IWindowSuietApi;
     const resData = await wallet.executeMoveCall(transaction);
     this.checkError(resData, 'executeMoveCall')
     this.checkDataIsNull(resData, 'executeMoveCall')
-    return resData.data as SuiTransactionResponse;
+    return resData.data as SuiExecuteTransactionResponse;
   }
 
   @ensureWalletExist()
   async executeSerializedMoveCall(
     transactionBytes: Uint8Array
-  ): Promise<SuiTransactionResponse> {
+  ): Promise<SuiExecuteTransactionResponse> {
     const wallet = this.wallet as IWindowSuietApi;
     const resData = await wallet.executeSerializedMoveCall(transactionBytes);
     this.checkError(resData, 'executeSerializedMoveCall')
     this.checkDataIsNull(resData, 'executeSerializedMoveCall')
-    return resData.data as SuiTransactionResponse;
+    return resData.data as SuiExecuteTransactionResponse;
   }
 
   @ensureWalletExist()
