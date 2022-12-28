@@ -1,6 +1,12 @@
 // Copyright © 2022, Suiet Team
 import {MoveCallTransaction, SuiTransactionResponse} from '@mysten/sui.js';
-import {IWindowSuietApi, ISuietWalletAdapter, Permission, ResData} from "./types";
+import {
+  IWindowSuietApi,
+  ISuietWalletAdapter,
+  Permission,
+  ResData,
+  ALL_PERMISSION_TYPES, PermissionType
+} from "./types";
 import {SignMessageInput, SignMessageOutput} from "@wallet-standard/features";
 
 declare const window: {
@@ -36,6 +42,24 @@ export class SuietWalletAdapter implements ISuietWalletAdapter {
     this.checkError(resData, 'getAccounts')
     this.checkDataIsNull(resData, 'getAccounts');
     return resData.data as string[];
+  }
+
+  @ensureWalletExist()
+  async hasPermissions(permissions: readonly PermissionType[] = ALL_PERMISSION_TYPES) {
+    const wallet = this.wallet as IWindowSuietApi;
+    const resData = await wallet.hasPermissions(permissions);
+    this.checkError(resData, 'hasPermissions')
+    this.checkDataIsNull(resData, 'hasPermissions')
+    return resData.data as boolean;
+  }
+
+  @ensureWalletExist()
+  async requestPermissions(permissions: readonly PermissionType[] = ALL_PERMISSION_TYPES) {
+    const wallet = this.wallet as IWindowSuietApi;
+    const resData = await wallet.requestPermissions(permissions);
+    this.checkError(resData, 'requestPermissions')
+    this.checkDataIsNull(resData, 'requestPermissions')
+    return resData.data as boolean;
   }
 
   @ensureWalletExist()

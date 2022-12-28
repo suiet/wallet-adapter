@@ -30,7 +30,7 @@ export interface IWindowSuietApi {
   executeSerializedMoveCall: (transactionBytes: Uint8Array) => Promise<ResData<SuiTransactionResponse>>;
   disconnect: () => Promise<ResData<void>>;
   hasPermissions: (permissions: readonly PermissionType[]) => Promise<ResData<boolean>>;
-  requestPermissions: () => Promise<ResData<boolean>>;
+  requestPermissions: (permissions: readonly PermissionType[]) => Promise<ResData<boolean>>;
   signMessage: (input: SignMessageInput) => Promise<ResData<SignMessageOutput>>;
   getPublicKey: () => Promise<ResData<Uint8Array>>;
 }
@@ -38,4 +38,6 @@ export interface IWindowSuietApi {
 export interface ISuietWalletAdapter extends WalletCapabilities {
   signMessage: (input: SignMessageInput) => Promise<SignMessageOutput>;
   getPublicKey: () => Promise<Uint8Array>;
+  hasPermissions: (permissions: readonly PermissionType[]) => Promise<boolean>;
+  requestPermissions: (permissions: readonly PermissionType[]) => Promise<boolean>;
 }
